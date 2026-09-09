@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FinTrack - Advanced Budget Tracker</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
+
+    <div class="container-fluid px-lg-4">
+
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="bi bi-wallet2"></i>
+            FinTrack
+        </a>
+
+        <div class="d-flex align-items-center gap-2">
+
+            <button
+                class="btn btn-outline-light"
+                id="themeBtn"
+                title="Change theme"
+            >
+                <i class="bi bi-moon"></i>
+            </button>
+
+            <button
+                class="btn btn-light"
+                data-bs-toggle="modal"
+                data-bs-target="#transactionModal"
+            >
+                <i class="bi bi-plus-lg"></i>
+                Add Transaction
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container-fluid px-lg-4 py-4">
+
+    <!-- HEADER -->
+
+    <div class="row align-items-center mb-4">
+
+        <div class="col-md-8">
+
+            <p class="text-primary fw-semibold mb-1">
+                FINANCIAL OVERVIEW
+            </p>
+
+            <h1 class="fw-bold mb-1">
+                Good day, <span id="userName">User</span> 👋
+            </h1>
+
+            <p class="text-muted mb-0">
+                Here's your financial situation at a glance.
+            </p>
+
+        </div>
+
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+            <span class="badge rounded-pill bg-light text-dark p-3">
+                <i class="bi bi-calendar3"></i>
+                <span id="currentDate"></span>
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card balance-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <p>Current Balance</p>
+                    <h3 id="balance">₦0</h3>
+                    <small id="balanceStatus">
+                        Available balance
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card income-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-arrow-down-left"></i>
+                </div>
+
+                <div>
+                    <p>Total Income</p>
+                    <h3 id="income">₦0</h3>
+                    <small>This period</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card expense-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+                <div>
+                    <p>Total Expenses</p>
+                    <h3 id="expenses">₦0</h3>
+                    <small id="expensePercentage">
+                        0% of income
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card savings-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-piggy-bank"></i>
+                </div>
+
+                <div>
+                    <p>Total Savings</p>
+                    <h3 id="savings">₦0</h3>
+                    <small id="savingsRate">
+                        0% savings rate
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CHARTS ================= -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-8">
+
+            <div class="app-card h-100">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>Cash Flow</h5>
+                        <small class="text-muted">
+                            Income and expenses over time
+                        </small>
+                    </div>
+
+                    <select
+                        id="chartPeriod"
+                        class="form-select form-select-sm chart-select"
+                    >
+                        <option value="6">Last 6 months</option>
+                        <option value="12">Last 12 months</option>
+                    </select>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="cashFlowChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-4">
+
+            <div class="app-card h-100">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>Expense Breakdown</h5>
+                        <small class="text-muted">
+                            Spending by category
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BUDGET + FINANCIAL HEALTH ================= -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- Monthly Budget -->
+
+        <div class="col-lg-7">
+
+            <div class="app-card">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>Monthly Budget</h5>
+                        <small class="text-muted">
+                            Track your spending limits
+                        </small>
+                    </div>
+
+                    <button
+                        class="btn btn-sm btn-primary"
+                        id="editBudgetBtn"
+                    >
+                        <i class="bi bi-pencil"></i>
+                        Edit Budget
+                    </button>
+
+                </div>
+
+
+                <div class="budget-summary">
+
+                    <div>
+
+                        <span class="text-muted">
+                            Budget
+                        </span>
+
+                        <h4 id="monthlyBudget">
+                            ₦0
+                        </h4>
+
+                    </div>
+
+
+                    <div class="text-end">
+
+                        <span class="text-muted">
+                            Spent
+                        </span>
+
+                        <h4 id="monthlySpent">
+                            ₦0
+                        </h4>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress budget-progress">
+
+                    <div
+                        id="budgetProgress"
+                        class="progress-bar"
+                        style="width: 0%"
+                    ></div>
+
+                </div>
+
+
+                <div class="d-flex justify-content-between mt-2">
+
+                    <small
+                        class="text-muted"
+                        id="budgetRemaining"
+                    >
+                        ₦0 remaining
+                    </small>
+
+                    <small
+                        class="text-muted"
+                        id="budgetPercent"
+                    >
+                        0%
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Financial Health -->
+
+        <div class="col-lg-5">
+
+            <div class="app-card health-card">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>Financial Health</h5>
+                        <small class="text-muted">
+                            Based on your current activity
+                        </small>
+                    </div>
+
+                    <i
+                        id="healthIcon"
+                        class="bi bi-heart-pulse fs-3 text-success"
+                    ></i>
+
+                </div>
+
+
+                <div class="health-score">
+
+                    <div
+                        class="score-circle"
+                        id="scoreCircle"
+                    >
+
+                        <span id="healthScore">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <h5 id="healthLabel">
+                            No data
+                        </h5>
+
+                        <p
+                            id="healthMessage"
+                            class="text-muted mb-0"
+                        >
+                            Add transactions to calculate your score.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SAVINGS GOALS ================= -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-12">
+
+            <div class="app-card">
+
+                <div class="card-header-custom">
+
+                    <div>
+                        <h5>Savings Goals</h5>
+                        <small class="text-muted">
+                            Build your financial future
+                        </small>
+                    </div>
+
+                    <button
+                        class="btn btn-sm btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#goalModal"
+                    >
+                        <i class="bi bi-plus-lg"></i>
+                        New Goal
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="row g-3"
+                    id="goalsContainer"
+                >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= TRANSACTIONS ================= -->
+
+    <div class="app-card mb-4">
+
+        <div class="card-header-custom flex-wrap gap-3">
+
+            <div>
+
+                <h5>Transactions</h5>
+
+                <small class="text-muted">
+                    Manage your financial activity
+                </small>
+
+            </div>
+
+
+            <div class="transaction-controls">
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="form-control"
+                        placeholder="Search..."
+                    >
+
+                </div>
+
+
+                <select
+                    id="typeFilter"
+                    class="form-select"
+                >
+                    <option value="all">
+                        All Types
+                    </option>
+
+                    <option value="income">
+                        Income
+                    </option>
+
+                    <option value="expense">
+                        Expense
+                    </option>
+                </select>
+
+
+                <select
+                    id="categoryFilter"
+                    class="form-select"
+                >
+
+                    <option value="all">
+                        All Categories
+                    </option>
+
+                    <option value="Salary">
+                        Salary
+                    </option>
+
+                    <option value="Business">
+                        Business
+                    </option>
+
+                    <option value="Food">
+                        Food
+                    </option>
+
+                    <option value="Transport">
+                        Transport
+                    </option>
+
+                    <option value="Rent">
+                        Rent
+                    </option>
+
+                    <option value="Bills">
+                        Bills
+                    </option>
+
+                    <option value="Shopping">
+                        Shopping
+                    </option>
+
+                    <option value="Education">
+                        Education
+                    </option>
+
+                    <option value="Health">
+                        Health
+                    </option>
+
+                    <option value="Entertainment">
+                        Entertainment
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="btn btn-outline-secondary"
+                    id="resetFilters"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="transactionTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div
+            id="emptyTransactions"
+            class="empty-state d-none"
+        >
+
+            <i class="bi bi-receipt fs-1"></i>
+
+            <h5 class="mt-3">
+                No transactions found
+            </h5>
+
+            <p class="text-muted">
+                Start by adding your first transaction.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="text-center py-4">
+
+        <small class="text-muted">
+            FinTrack Budget Manager &copy;
+            <span id="footerYear"></span>
+        </small>
+
+    </footer>
+
+</main>
+
+
+<!-- ================= TRANSACTION MODAL ================= -->
+
+<div
+    class="modal fade"
+    id="transactionModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5
+                    class="modal-title"
+                    id="transactionModalTitle"
+                >
+                    Add Transaction
+                </h5>
+
+                <button
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <form id="transactionForm">
+
+                <div class="modal-body">
+
+                    <input
+                        type="hidden"
+                        id="transactionId"
+                    >
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Description
+                            </label>
+
+                            <input
+                                type="text"
+                                id="description"
+                                class="form-control"
+                                placeholder="e.g. Monthly salary"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Amount
+                            </label>
+
+                            <input
+                                type="number"
+                                id="amount"
+                                class="form-control"
+                                min="1"
+                                step="0.01"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Type
+                            </label>
+
+                            <select
+                                id="transactionType"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select type
+                                </option>
+
+                                <option value="income">
+                                    Income
+                                </option>
+
+                                <option value="expense">
+                                    Expense
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Category
+                            </label>
+
+                            <select
+                                id="transactionCategory"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option>Salary</option>
+                                <option>Business</option>
+                                <option>Food</option>
+                                <option>Transport</option>
+                                <option>Rent</option>
+                                <option>Bills</option>
+                                <option>Shopping</option>
+                                <option>Education</option>
+                                <option>Health</option>
+                                <option>Entertainment</option>
+                                <option>Other</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="transactionDate"
+                                class="form-control"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                Note
+                            </label>
+
+                            <input
+                                type="text"
+                                id="transactionNote"
+                                class="form-control"
+                                placeholder="Optional note"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Save Transaction
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= GOAL MODAL ================= -->
+
+<div
+    class="modal fade"
+    id="goalModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    Create Savings Goal
+                </h5>
+
+                <button
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <form id="goalForm">
+
+                <div class="modal-body">
+
+                    <label class="form-label">
+                        Goal Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="goalName"
+                        class="form-control mb-3"
+                        placeholder="e.g. New Laptop"
+                        required
+                    >
+
+
+                    <label class="form-label">
+                        Target Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="goalTarget"
+                        class="form-control"
+                        min="1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Create Goal
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= BUDGET MODAL ================= -->
+
+<div
+    class="modal fade"
+    id="budgetModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    Monthly Budget
+                </h5>
+
+                <button
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <label class="form-label">
+                    Monthly Spending Limit
+                </label>
+
+                <input
+                    type="number"
+                    id="budgetInput"
+                    class="form-control"
+                    min="1"
+                    placeholder="e.g. 200000"
+                >
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    id="saveBudgetBtn"
+                >
+                    Save Budget
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Toast -->
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+    <div
+        id="notification"
+        class="toast"
+        role="alert"
+    >
+
+        <div class="toast-header">
+
+            <strong class="me-auto">
+                FinTrack
+            </strong>
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="toast"
+            ></button>
+
+        </div>
+
+        <div
+            class="toast-body"
+            id="notificationMessage"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<!-- Custom JavaScript -->
+
+<script src="script.js"></script>
+
+</body>
+</html>
+

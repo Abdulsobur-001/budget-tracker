@@ -1,0 +1,446 @@
+/* =========================================
+   GLOBAL
+========================================= */
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.app-navbar {
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.app-card {
+    background: var(--card);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+
+.card-header-custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.card-header-custom h5 {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.stat-card {
+    min-height: 150px;
+    padding: 25px;
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card p {
+    margin: 0;
+    opacity: 0.85;
+}
+
+.stat-card h3 {
+    margin: 5px 0;
+    font-weight: 800;
+}
+
+.stat-card small {
+    opacity: 0.8;
+}
+
+.balance-card {
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+}
+
+.income-card {
+    background: linear-gradient(
+        135deg,
+        #059669,
+        #10b981
+    );
+}
+
+.expense-card {
+    background: linear-gradient(
+        135deg,
+        #dc2626,
+        #ef4444
+    );
+}
+
+.savings-card {
+    background: linear-gradient(
+        135deg,
+        #d97706,
+        #f59e0b
+    );
+}
+
+.stat-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    font-size: 1.5rem;
+}
+
+
+/* =========================================
+   CHART
+========================================= */
+
+.chart-container {
+    position: relative;
+    height: 320px;
+}
+
+.chart-select {
+    width: auto;
+}
+
+
+/* =========================================
+   BUDGET
+========================================= */
+
+.budget-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.budget-summary h4 {
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.budget-progress {
+    height: 14px;
+    border-radius: 20px;
+    background: #e5e7eb;
+}
+
+.budget-progress .progress-bar {
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+
+/* =========================================
+   HEALTH
+========================================= */
+
+.health-card {
+    min-height: 220px;
+}
+
+.health-score {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.score-circle {
+    width: 110px;
+    height: 110px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        conic-gradient(
+            var(--success) 0deg,
+            #e5e7eb 0deg
+        );
+
+    position: relative;
+}
+
+.score-circle::before {
+    content: "";
+
+    position: absolute;
+
+    width: 82px;
+    height: 82px;
+
+    background: var(--card);
+
+    border-radius: 50%;
+}
+
+.score-circle span {
+    position: relative;
+
+    font-size: 1.7rem;
+    font-weight: 800;
+}
+
+
+/* =========================================
+   SAVINGS GOALS
+========================================= */
+
+.goal-card {
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    padding: 20px;
+
+    transition: 0.3s;
+}
+
+.goal-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.goal-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #ecfdf5;
+    color: #059669;
+
+    border-radius: 12px;
+
+    font-size: 1.3rem;
+}
+
+.goal-progress {
+    height: 10px;
+    border-radius: 20px;
+}
+
+
+/* =========================================
+   TRANSACTIONS
+========================================= */
+
+.transaction-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.transaction-controls .input-group {
+    width: 220px;
+}
+
+.transaction-controls select {
+    width: 160px;
+}
+
+.table thead th {
+    font-size: 0.8rem;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr {
+    transition: 0.2s;
+}
+
+.table tbody tr:hover {
+    background: rgba(99, 102, 241, 0.04);
+}
+
+.transaction-title {
+    font-weight: 600;
+}
+
+.transaction-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.income-text {
+    color: var(--success) !important;
+}
+
+.expense-text {
+    color: var(--danger) !important;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark-mode {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --border: #334155;
+}
+
+body.dark-mode .table {
+    --bs-table-color: #f8fafc;
+    --bs-table-bg: transparent;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text {
+    background: #334155;
+    color: white;
+    border-color: #475569;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #94a3b8;
+}
+
+body.dark-mode .modal-content {
+    background: #1e293b;
+    color: white;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+body.dark-mode .bg-light {
+    background: #334155 !important;
+    color: white !important;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .app-card {
+        padding: 18px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .transaction-controls {
+        width: 100%;
+    }
+
+    .transaction-controls .input-group,
+    .transaction-controls select {
+        width: 100%;
+    }
+
+    .card-header-custom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+}
+
